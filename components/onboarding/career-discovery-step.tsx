@@ -15,9 +15,14 @@ import {
 } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 
+import { AiUpdatedField } from "@/components/onboarding/ai-updated-field";
 import { OnboardingHeader } from "@/components/onboarding/onboarding-header";
 import { Button } from "@/components/ui/button";
-import { VoiceAssistantFloat } from "@/components/voice/voice-assistant-float";
+import {
+  CAREER_PRIORITY_OPTIONS,
+  INDUSTRY_OPTIONS,
+  WORK_INTEREST_OPTIONS,
+} from "@/lib/career/discovery-options";
 import { recommendCareersLocally } from "@/lib/career/recommendation-engine";
 import { useOnboardingStore } from "@/stores/onboarding-store";
 import type {
@@ -25,43 +30,10 @@ import type {
   CareerRecommendationProvider,
 } from "@/types";
 
-const workInterests = [
-  "Solving business problems",
-  "Working with data",
-  "Building products",
-  "Writing code",
-  "Designing experiences",
-  "Working with people",
-  "Managing projects",
-  "Research and strategy",
-];
-
 const orientations: Array<{ value: Exclude<CareerOrientation, null>; label: string }> = [
   { value: "business", label: "Business" },
   { value: "balanced", label: "Balanced" },
   { value: "technical", label: "Technical" },
-];
-
-const industries = [
-  "Technology",
-  "Mobility",
-  "Automotive",
-  "Finance",
-  "Consumer",
-  "Healthcare",
-  "Consulting",
-  "E-commerce",
-  "Manufacturing",
-];
-
-const careerPriorities = [
-  "Career growth",
-  "High salary",
-  "Job stability",
-  "Creativity",
-  "Leadership",
-  "Technical depth",
-  "Flexible work",
 ];
 
 interface DiscoverySectionProps {
@@ -92,7 +64,7 @@ function DiscoverySection({ eyebrow, title, description, icon: Icon, children }:
 
 interface ChoiceGridProps {
   label: string;
-  options: string[];
+  options: readonly string[];
   selected: string[];
   onChange: (values: string[]) => void;
 }
@@ -201,7 +173,9 @@ export function CareerDiscoveryStep({ recommendCareers = recommendCareersLocally
 
           <div className="mt-10 grid gap-5">
             <DiscoverySection eyebrow="Question 1" title="What kind of work do you enjoy?" description="Select every type of work you would like to do more often." icon={Lightbulb}>
-              <ChoiceGrid label="Work you enjoy" options={workInterests} selected={interests} onChange={setInterests} />
+              <AiUpdatedField field="interests" className="rounded-xl">
+                <ChoiceGrid label="Work you enjoy" options={WORK_INTEREST_OPTIONS} selected={interests} onChange={setInterests} />
+              </AiUpdatedField>
             </DiscoverySection>
 
             <DiscoverySection eyebrow="Question 2" title="Your preferred orientation" description="Choose where you feel most comfortable today." icon={Sparkle}>
@@ -209,27 +183,35 @@ export function CareerDiscoveryStep({ recommendCareers = recommendCareersLocally
                 {orientations.map(({ value, label }) => {
                   const isSelected = orientation === value;
                   return (
-                    <button
+                    <AiUpdatedField
                       key={value}
-                      type="button"
-                      role="radio"
-                      aria-checked={isSelected}
-                      onClick={() => setOrientation(value)}
-                      className={`min-h-16 rounded-xl border px-5 text-left text-sm font-semibold transition-[transform,background-color,border-color,box-shadow] duration-200 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${isSelected ? "border-primary bg-primary text-primary-foreground shadow-[0_10px_24px_rgb(36_70_155/0.15)]" : "border-border bg-card text-foreground hover:border-brand-300 hover:bg-brand-50"}`}
+                      field="orientation"
+                      value={value}
+                      className="rounded-xl"
                     >
-                      {label}
-                    </button>
+                      <button
+                        type="button"
+                        role="radio"
+                        aria-checked={isSelected}
+                        onClick={() => setOrientation(value)}
+                        className={`min-h-16 w-full rounded-xl border px-5 text-left text-sm font-semibold transition-[transform,background-color,border-color,box-shadow] duration-200 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${isSelected ? "border-primary bg-primary text-primary-foreground shadow-[0_10px_24px_rgb(36_70_155/0.15)]" : "border-border bg-card text-foreground hover:border-brand-300 hover:bg-brand-50"}`}
+                      >
+                        {label}
+                      </button>
+                    </AiUpdatedField>
                   );
                 })}
               </div>
             </DiscoverySection>
 
             <DiscoverySection eyebrow="Question 3" title="Industries you are interested in" description="Pick the spaces you would be excited to learn about or work in." icon={Factory}>
-              <ChoiceGrid label="Industries of interest" options={industries} selected={selectedIndustries} onChange={setIndustries} />
+              <AiUpdatedField field="industries" className="rounded-xl">
+                <ChoiceGrid label="Industries of interest" options={INDUSTRY_OPTIONS} selected={selectedIndustries} onChange={setIndustries} />
+              </AiUpdatedField>
             </DiscoverySection>
 
             <DiscoverySection eyebrow="Question 4" title="What matters most in your next role?" description="Select the outcomes and qualities you care about most." icon={Heartbeat}>
-              <ChoiceGrid label="Career priorities" options={careerPriorities} selected={priorities} onChange={setCareerPriorities} />
+              <ChoiceGrid label="Career priorities" options={CAREER_PRIORITY_OPTIONS} selected={priorities} onChange={setCareerPriorities} />
             </DiscoverySection>
           </div>
 
@@ -250,7 +232,6 @@ export function CareerDiscoveryStep({ recommendCareers = recommendCareersLocally
         </section>
       </div>
 
-      <VoiceAssistantFloat message="Tell me what you enjoy, the industries that interest you, and what matters most. I'll narrow down the best matches." />
     </main>
   );
 }

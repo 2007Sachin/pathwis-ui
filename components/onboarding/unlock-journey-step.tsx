@@ -22,7 +22,6 @@ import { useRouter } from "next/navigation";
 
 import { OnboardingHeader } from "@/components/onboarding/onboarding-header";
 import { Button } from "@/components/ui/button";
-import { VoiceAssistantFloat } from "@/components/voice/voice-assistant-float";
 import { handleMockPayment } from "@/lib/payments/mock-payment";
 import { useOnboardingStore } from "@/stores/onboarding-store";
 import type { PaymentHandler, SubscriptionPlan } from "@/types";
@@ -86,8 +85,8 @@ export function UnlockJourneyStep({ paymentHandler = handleMockPayment }: Unlock
   const career = roadmap?.career ?? selectedRecommendation?.career ?? readableCareer(selectedCareer ?? "your career");
 
   const goBack = () => {
-    setCurrentStep(7);
-    router.push("/onboarding?step=7");
+    setCurrentStep(8);
+    router.push("/onboarding?step=8");
   };
 
   const unlockRoadmap = async () => {
@@ -119,8 +118,8 @@ export function UnlockJourneyStep({ paymentHandler = handleMockPayment }: Unlock
   };
 
   const startStageOne = () => {
-    setCurrentStep(7);
-    router.push("/onboarding?step=7#roadmap-stage-1");
+    setCurrentStep(8);
+    router.push("/onboarding?step=8#roadmap-stage-1");
   };
 
   if (isComplete) {
@@ -150,7 +149,7 @@ export function UnlockJourneyStep({ paymentHandler = handleMockPayment }: Unlock
 
   return (
     <main className="min-h-[100dvh] bg-background pb-44 text-foreground sm:pb-40">
-      <OnboardingHeader step={8} label="Unlock your journey" />
+      <OnboardingHeader step={9} label="Unlock your journey" />
 
       <div className="mx-auto w-full max-w-[1180px] px-5 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:pt-16">
         <section aria-labelledby="unlock-heading">
@@ -241,7 +240,6 @@ export function UnlockJourneyStep({ paymentHandler = handleMockPayment }: Unlock
         </section>
       </div>
 
-      <VoiceAssistantFloat message="Your journey is ready to activate. The annual plan gives you two months free compared with monthly billing." />
     </main>
   );
 }

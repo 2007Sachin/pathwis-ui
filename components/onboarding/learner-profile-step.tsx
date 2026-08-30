@@ -12,12 +12,13 @@ import {
   X,
   type Icon,
 } from "@phosphor-icons/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useRouter } from "next/navigation";
 
+import { AiUpdatedField } from "@/components/onboarding/ai-updated-field";
 import { OnboardingHeader } from "@/components/onboarding/onboarding-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { VoiceAssistantFloat } from "@/components/voice/voice-assistant-float";
 import { useOnboardingStore } from "@/stores/onboarding-store";
 import type { OnboardingStatus } from "@/types";
 
@@ -79,6 +80,7 @@ function isExperienceSelected(option: ExperienceOption, experienceYears: number 
 
 export function LearnerProfileStep() {
   const router = useRouter();
+  const prefersReducedMotion = useReducedMotion();
   const [customSkill, setCustomSkill] = useState("");
   const status = useOnboardingStore((state) => state.status);
   const currentRole = useOnboardingStore((state) => state.currentRole);
@@ -146,35 +148,43 @@ export function LearnerProfileStep() {
                 {statusOptions.map(({ value, label, icon: Icon }) => {
                   const isSelected = status === value;
                   return (
-                    <button
+                    <AiUpdatedField
                       key={value}
-                      type="button"
-                      role="radio"
-                      aria-checked={isSelected}
-                      onClick={() => setStatus(value)}
-                      className={`flex min-h-24 flex-col items-start justify-between rounded-2xl border p-4 text-left transition-[transform,background-color,border-color,box-shadow] duration-200 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${isSelected ? "border-primary bg-brand-50 shadow-[0_10px_26px_rgb(36_70_155/0.1)]" : "border-border bg-card hover:border-brand-300"}`}
+                      field="status"
+                      value={value}
+                      className="h-full"
                     >
-                      <Icon aria-hidden="true" className={`size-5 ${isSelected ? "text-primary" : "text-muted-foreground"}`} weight="duotone" />
-                      <span className="mt-4 text-sm font-semibold text-foreground">{label}</span>
-                    </button>
+                      <button
+                        type="button"
+                        role="radio"
+                        aria-checked={isSelected}
+                        onClick={() => setStatus(value)}
+                        className={`flex h-full min-h-24 w-full flex-col items-start justify-between rounded-2xl border p-4 text-left transition-[transform,background-color,border-color,box-shadow] duration-200 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${isSelected ? "border-primary bg-brand-50 shadow-[0_10px_26px_rgb(36_70_155/0.1)]" : "border-border bg-card hover:border-brand-300"}`}
+                      >
+                        <Icon aria-hidden="true" className={`size-5 ${isSelected ? "text-primary" : "text-muted-foreground"}`} weight="duotone" />
+                        <span className="mt-4 text-sm font-semibold text-foreground">{label}</span>
+                      </button>
+                    </AiUpdatedField>
                   );
                 })}
               </div>
             </section>
 
             <div className="grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
-              <section className="rounded-[1.5rem] border border-border bg-card p-6 sm:p-8" aria-labelledby="role-heading">
-                <label id="role-heading" htmlFor="current-role" className="text-lg font-semibold tracking-[-0.02em] sm:text-xl">Current role / field</label>
-                <p id="role-help" className="mt-1.5 text-sm leading-6 text-muted-foreground">Use your role, field of study or area of focus.</p>
-                <Input
-                  id="current-role"
-                  className="mt-6"
-                  value={currentRole ?? ""}
-                  onChange={(event) => setCurrentRole(event.target.value || null)}
-                  placeholder="Product Planning - Electric Mobility"
-                  aria-describedby="role-help"
-                />
-              </section>
+              <AiUpdatedField field="currentRole" className="h-full rounded-[1.5rem]">
+                <section className="h-full rounded-[1.5rem] border border-border bg-card p-6 sm:p-8" aria-labelledby="role-heading">
+                  <label id="role-heading" htmlFor="current-role" className="text-lg font-semibold tracking-[-0.02em] sm:text-xl">Current role / field</label>
+                  <p id="role-help" className="mt-1.5 text-sm leading-6 text-muted-foreground">Use your role, field of study or area of focus.</p>
+                  <Input
+                    id="current-role"
+                    className="mt-6"
+                    value={currentRole ?? ""}
+                    onChange={(event) => setCurrentRole(event.target.value || null)}
+                    placeholder="Product Planning - Electric Mobility"
+                    aria-describedby="role-help"
+                  />
+                </section>
+              </AiUpdatedField>
 
               <section className="rounded-[1.5rem] border border-border bg-card p-6 sm:p-8" aria-labelledby="experience-heading">
                 <h2 id="experience-heading" className="text-lg font-semibold tracking-[-0.02em] sm:text-xl">Years of experience</h2>
@@ -183,37 +193,53 @@ export function LearnerProfileStep() {
                   {experienceOptions.map((option) => {
                     const isSelected = isExperienceSelected(option, experienceYears);
                     return (
-                      <button
+                      <AiUpdatedField
                         key={option.id}
-                        type="button"
-                        role="radio"
-                        aria-checked={isSelected}
-                        onClick={() => setExperience(option.value)}
-                        className={`h-11 rounded-xl border text-sm font-semibold transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${isSelected ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground hover:border-brand-300 hover:bg-brand-50"}`}
+                        field="experienceYears"
+                        value={option.value}
+                        className="rounded-xl"
                       >
-                        {option.label}
-                      </button>
+                        <button
+                          type="button"
+                          role="radio"
+                          aria-checked={isSelected}
+                          onClick={() => setExperience(option.value)}
+                          className={`h-11 w-full rounded-xl border text-sm font-semibold transition-[transform,background-color,border-color] duration-200 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${isSelected ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground hover:border-brand-300 hover:bg-brand-50"}`}
+                        >
+                          {option.label}
+                        </button>
+                      </AiUpdatedField>
                     );
                   })}
                 </div>
               </section>
             </div>
 
+            <AiUpdatedField field="skills" className="rounded-[1.5rem]">
             <section className="rounded-[1.5rem] border border-border bg-card p-6 sm:p-8" aria-labelledby="skills-heading">
               <h2 id="skills-heading" className="text-lg font-semibold tracking-[-0.02em] sm:text-xl">Skills you already use</h2>
               <p className="mt-1.5 text-sm leading-6 text-muted-foreground">Select suggestions or add anything that is part of your current toolkit.</p>
 
               {skills.length > 0 && (
-                <div className="mt-6 flex flex-wrap gap-2" aria-label="Selected skills">
+                <motion.div layout className="mt-6 flex flex-wrap gap-2" aria-label="Selected skills">
+                  <AnimatePresence initial={false}>
                   {skills.map((skill) => (
-                    <span key={skill} className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-primary px-3.5 py-2 text-sm font-medium text-primary-foreground">
+                    <motion.span
+                      layout
+                      key={skill}
+                      initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.96, y: 3 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={prefersReducedMotion ? undefined : { opacity: 0, scale: 0.96 }}
+                      className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-primary px-3.5 py-2 text-sm font-medium text-primary-foreground"
+                    >
                       {skill}
                       <button type="button" onClick={() => removeSkill(skill)} className="rounded-md p-0.5 transition-colors hover:bg-primary-foreground/15 focus-visible:ring-2 focus-visible:ring-primary-foreground" aria-label={`Remove ${skill}`}>
                         <X aria-hidden="true" className="size-3.5" weight="bold" />
                       </button>
-                    </span>
+                    </motion.span>
                   ))}
-                </div>
+                  </AnimatePresence>
+                </motion.div>
               )}
 
               <div className="mt-6 flex flex-wrap gap-2" aria-label="Skill suggestions">
@@ -242,6 +268,7 @@ export function LearnerProfileStep() {
                 </Button>
               </form>
             </section>
+            </AiUpdatedField>
           </div>
 
           <div className="mt-8 flex flex-col-reverse gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
@@ -257,7 +284,6 @@ export function LearnerProfileStep() {
         </section>
       </div>
 
-      <VoiceAssistantFloat message="You can simply tell me what you do and which skills you use. I'll fill this in for you." />
     </main>
   );
 }

@@ -13,9 +13,9 @@ import {
 } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 
+import { AiUpdatedField } from "@/components/onboarding/ai-updated-field";
 import { OnboardingHeader } from "@/components/onboarding/onboarding-header";
 import { Button } from "@/components/ui/button";
-import { VoiceAssistantFloat } from "@/components/voice/voice-assistant-float";
 import { useOnboardingStore } from "@/stores/onboarding-store";
 import type { CareerRecommendation } from "@/types";
 
@@ -137,7 +137,6 @@ export function CareerMatchesStep() {
   const selectedCareer = useOnboardingStore((state) => state.selectedCareer);
   const selectCareer = useOnboardingStore((state) => state.selectCareer);
   const setCurrentStep = useOnboardingStore((state) => state.setCurrentStep);
-  const generateRoadmap = useOnboardingStore((state) => state.generateRoadmap);
   const recommendations = storedRecommendations
     .filter(
       (recommendation) =>
@@ -153,10 +152,8 @@ export function CareerMatchesStep() {
     router.push("/onboarding?step=5");
   };
 
-  const buildRoadmap = () => {
+  const continueToPreferences = () => {
     if (!hasSelectedMatch) return;
-    const roadmap = generateRoadmap();
-    if (!roadmap) return;
     setCurrentStep(7);
     router.push("/onboarding?step=7");
   };
@@ -191,19 +188,27 @@ export function CareerMatchesStep() {
             </section>
           ) : (
             <>
-              <div className="mt-10 grid items-stretch gap-5 lg:grid-cols-3">
-                {recommendations.map((recommendation, index) => (
-                  <RecommendationCard
-                    key={recommendation.id}
-                    recommendation={recommendation}
-                    isBestMatch={index === 0}
-                    isSelected={selectedCareer === recommendation.id}
-                    isPreviewed={previewedCareer === recommendation.id}
-                    onPreview={() => setPreviewedCareer((current) => current === recommendation.id ? null : recommendation.id)}
-                    onSelect={() => selectCareer(recommendation.id)}
-                  />
-                ))}
-              </div>
+              <AiUpdatedField field="recommendedCareers" className="mt-10 rounded-[1.65rem]">
+                <div className="grid items-stretch gap-5 lg:grid-cols-3">
+                  {recommendations.map((recommendation, index) => (
+                    <AiUpdatedField
+                      key={recommendation.id}
+                      field="selectedCareer"
+                      value={recommendation.id}
+                      className="h-full rounded-[1.65rem]"
+                    >
+                      <RecommendationCard
+                        recommendation={recommendation}
+                        isBestMatch={index === 0}
+                        isSelected={selectedCareer === recommendation.id}
+                        isPreviewed={previewedCareer === recommendation.id}
+                        onPreview={() => setPreviewedCareer((current) => current === recommendation.id ? null : recommendation.id)}
+                        onSelect={() => selectCareer(recommendation.id)}
+                      />
+                    </AiUpdatedField>
+                  ))}
+                </div>
+              </AiUpdatedField>
 
               {preview && (
                 <section className="mt-5 rounded-[1.5rem] border border-brand-200 bg-brand-50 p-6 sm:flex sm:items-center sm:justify-between sm:gap-8 sm:p-8" aria-live="polite">
@@ -221,6 +226,7 @@ export function CareerMatchesStep() {
                   </div>
                 </section>
               )}
+
             </>
           )}
 
@@ -229,15 +235,14 @@ export function CareerMatchesStep() {
               <ArrowLeft aria-hidden="true" className="mr-2 size-4" weight="bold" />
               Back
             </Button>
-            <Button size="lg" className="h-12 w-full rounded-xl px-6 sm:w-auto" disabled={!hasSelectedMatch} onClick={buildRoadmap}>
-              Build my roadmap
+            <Button size="lg" className="h-12 w-full rounded-xl px-6 sm:w-auto" disabled={!hasSelectedMatch} onClick={continueToPreferences}>
+              Set learning preferences
               <ArrowRight aria-hidden="true" className="ml-2 size-4" weight="bold" />
             </Button>
           </div>
         </section>
       </div>
 
-      <VoiceAssistantFloat message="These are your strongest matches. I can explain the trade-offs or select the career that feels right for you." />
     </main>
   );
 }

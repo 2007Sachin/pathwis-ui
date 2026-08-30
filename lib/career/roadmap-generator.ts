@@ -51,6 +51,10 @@ function preferredModuleFormats(learningStyles: string[]) {
   const styles = learningStyles.map(normalise);
   const formats: string[] = [];
 
+  if (styles.includes("mixed")) {
+    return ["Visual walkthrough", "Reading guide", "Guided practice", "Practice exercise"];
+  }
+
   if (styles.some((style) => style.includes("visual") || style.includes("video"))) {
     formats.push("Visual walkthrough");
   }

@@ -12,7 +12,6 @@ import { useRouter } from "next/navigation";
 
 import { OnboardingHeader } from "@/components/onboarding/onboarding-header";
 import { Button } from "@/components/ui/button";
-import { VoiceAssistantFloat } from "@/components/voice/voice-assistant-float";
 import { useOnboardingStore } from "@/stores/onboarding-store";
 
 const benefits = [
@@ -112,7 +111,6 @@ export function WelcomeScreen() {
         </section>
       </div>
 
-      <VoiceAssistantFloat message="Hi! I can guide you through this in about 2-3 minutes." />
     </main>
   );
 }

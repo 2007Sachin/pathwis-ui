@@ -13,10 +13,10 @@ import {
 } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 
+import { AiUpdatedField } from "@/components/onboarding/ai-updated-field";
 import { OnboardingHeader } from "@/components/onboarding/onboarding-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { VoiceAssistantFloat } from "@/components/voice/voice-assistant-float";
 import { MOCK_CAREER_ROLES } from "@/lib/career/mock-careers";
 import { useOnboardingStore } from "@/stores/onboarding-store";
 import type { CareerIntent, CareerRole } from "@/types";
@@ -127,25 +127,31 @@ export function CareerIntentStep({ roles = MOCK_CAREER_ROLES }: CareerIntentStep
             {intentOptions.map(({ value, title, description, icon: Icon }) => {
               const isSelected = careerIntent === value;
               return (
-                <button
+                <AiUpdatedField
                   key={value}
-                  type="button"
-                  role="radio"
-                  aria-checked={isSelected}
-                  onClick={() => selectIntent(value)}
-                  className={`group min-h-[196px] rounded-[1.5rem] border p-6 text-left transition-[transform,background-color,border-color,box-shadow] duration-200 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${isSelected ? "scale-[1.01] border-primary bg-brand-50 shadow-[0_14px_34px_rgb(36_70_155/0.11)]" : "border-border bg-card hover:border-brand-300 hover:shadow-[0_12px_30px_rgb(36_70_155/0.07)]"}`}
+                  field="careerIntent"
+                  value={value}
+                  className="h-full rounded-[1.5rem]"
                 >
-                  <span className="flex items-start justify-between gap-4">
-                    <span className={`grid size-12 place-items-center rounded-xl transition-colors ${isSelected ? "bg-primary text-primary-foreground" : "bg-brand-50 text-primary group-hover:bg-brand-100"}`}>
-                      <Icon aria-hidden="true" className="size-5" weight="duotone" />
+                  <button
+                    type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    onClick={() => selectIntent(value)}
+                    className={`group h-full min-h-[196px] w-full rounded-[1.5rem] border p-6 text-left transition-[transform,background-color,border-color,box-shadow] duration-200 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${isSelected ? "scale-[1.01] border-primary bg-brand-50 shadow-[0_14px_34px_rgb(36_70_155/0.11)]" : "border-border bg-card hover:border-brand-300 hover:shadow-[0_12px_30px_rgb(36_70_155/0.07)]"}`}
+                  >
+                    <span className="flex items-start justify-between gap-4">
+                      <span className={`grid size-12 place-items-center rounded-xl transition-colors ${isSelected ? "bg-primary text-primary-foreground" : "bg-brand-50 text-primary group-hover:bg-brand-100"}`}>
+                        <Icon aria-hidden="true" className="size-5" weight="duotone" />
+                      </span>
+                      <span className={`grid size-6 place-items-center rounded-full border transition-colors ${isSelected ? "border-primary bg-primary text-primary-foreground" : "border-input bg-card text-transparent"}`}>
+                        <Check aria-hidden="true" className="size-3.5" weight="bold" />
+                      </span>
                     </span>
-                    <span className={`grid size-6 place-items-center rounded-full border transition-colors ${isSelected ? "border-primary bg-primary text-primary-foreground" : "border-input bg-card text-transparent"}`}>
-                      <Check aria-hidden="true" className="size-3.5" weight="bold" />
-                    </span>
-                  </span>
-                  <span className="mt-6 block text-lg font-semibold tracking-[-0.025em] text-foreground">{title}</span>
-                  <span className="mt-2 block text-sm leading-6 text-muted-foreground">{description}</span>
-                </button>
+                    <span className="mt-6 block text-lg font-semibold tracking-[-0.025em] text-foreground">{title}</span>
+                    <span className="mt-2 block text-sm leading-6 text-muted-foreground">{description}</span>
+                  </button>
+                </AiUpdatedField>
               );
             })}
           </div>
@@ -162,10 +168,12 @@ export function CareerIntentStep({ roles = MOCK_CAREER_ROLES }: CareerIntentStep
                 {filteredRoles.map((role) => {
                   const isSelected = selectedCareer === role.id;
                   return (
-                    <button key={role.id} type="button" aria-pressed={isSelected} onClick={() => selectCareer(role.id)} className={`flex min-h-12 items-center justify-between rounded-xl border px-4 py-3 text-left text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${isSelected ? "border-primary bg-brand-50 text-primary" : "border-border bg-card text-foreground hover:border-brand-300 hover:bg-brand-50"}`}>
-                      {role.title}
-                      {isSelected && <Check aria-hidden="true" className="size-4" weight="bold" />}
-                    </button>
+                    <AiUpdatedField key={role.id} field="selectedCareer" value={role.id} className="rounded-xl">
+                      <button type="button" aria-pressed={isSelected} onClick={() => selectCareer(role.id)} className={`flex min-h-12 w-full items-center justify-between rounded-xl border px-4 py-3 text-left text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${isSelected ? "border-primary bg-brand-50 text-primary" : "border-border bg-card text-foreground hover:border-brand-300 hover:bg-brand-50"}`}>
+                        {role.title}
+                        {isSelected && <Check aria-hidden="true" className="size-4" weight="bold" />}
+                      </button>
+                    </AiUpdatedField>
                   );
                 })}
                 {filteredRoles.length === 0 && <p className="py-4 text-sm text-muted-foreground sm:col-span-2">No matching roles yet. Try a broader search.</p>}
@@ -224,7 +232,6 @@ export function CareerIntentStep({ roles = MOCK_CAREER_ROLES }: CareerIntentStep
         </section>
       </div>
 
-      <VoiceAssistantFloat message="Tell me how clear your target is. I can help you choose or discover the right role." />
     </main>
   );
 }

@@ -13,9 +13,9 @@ import {
 } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 
+import { AiUpdatedField } from "@/components/onboarding/ai-updated-field";
 import { OnboardingHeader } from "@/components/onboarding/onboarding-header";
 import { Button } from "@/components/ui/button";
-import { VoiceAssistantFloat } from "@/components/voice/voice-assistant-float";
 import { useOnboardingStore } from "@/stores/onboarding-store";
 import type { OnboardingGoal } from "@/types";
 
@@ -103,29 +103,35 @@ export function GoalStep() {
               const isSelected = selectedGoal === value;
 
               return (
-                <button
+                <AiUpdatedField
                   key={value}
-                  type="button"
-                  role="radio"
-                  aria-checked={isSelected}
-                  onClick={() => setGoal(value)}
-                  className={`group min-h-[178px] rounded-2xl border p-5 text-left shadow-[0_8px_24px_rgb(36_70_155/0.035)] transition-[transform,background-color,border-color,box-shadow] duration-200 ease-out focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:p-6 ${
-                    isSelected
-                      ? "scale-[1.012] border-primary bg-brand-50 shadow-[0_14px_34px_rgb(36_70_155/0.12)]"
-                      : "border-border bg-card hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-[0_12px_30px_rgb(36_70_155/0.08)]"
-                  }`}
+                  field="goal"
+                  value={value}
+                  className="h-full"
                 >
-                  <span className="flex items-start justify-between gap-4">
-                    <span className={`grid size-11 place-items-center rounded-xl transition-colors duration-200 ${isSelected ? "bg-primary text-primary-foreground" : "bg-brand-50 text-primary group-hover:bg-brand-100"}`}>
-                      <Icon aria-hidden="true" className="size-5" weight="duotone" />
+                  <button
+                    type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    onClick={() => setGoal(value)}
+                    className={`group h-full min-h-[178px] w-full rounded-2xl border p-5 text-left shadow-[0_8px_24px_rgb(36_70_155/0.035)] transition-[transform,background-color,border-color,box-shadow] duration-200 ease-out focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:p-6 ${
+                      isSelected
+                        ? "scale-[1.012] border-primary bg-brand-50 shadow-[0_14px_34px_rgb(36_70_155/0.12)]"
+                        : "border-border bg-card hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-[0_12px_30px_rgb(36_70_155/0.08)]"
+                    }`}
+                  >
+                    <span className="flex items-start justify-between gap-4">
+                      <span className={`grid size-11 place-items-center rounded-xl transition-colors duration-200 ${isSelected ? "bg-primary text-primary-foreground" : "bg-brand-50 text-primary group-hover:bg-brand-100"}`}>
+                        <Icon aria-hidden="true" className="size-5" weight="duotone" />
+                      </span>
+                      <span aria-hidden="true" className={`grid size-6 place-items-center rounded-full border transition-colors duration-200 ${isSelected ? "border-primary bg-primary" : "border-input bg-card"}`}>
+                        <span className={`size-2 rounded-full bg-primary-foreground transition-transform duration-200 ${isSelected ? "scale-100" : "scale-0"}`} />
+                      </span>
                     </span>
-                    <span aria-hidden="true" className={`grid size-6 place-items-center rounded-full border transition-colors duration-200 ${isSelected ? "border-primary bg-primary" : "border-input bg-card"}`}>
-                      <span className={`size-2 rounded-full bg-primary-foreground transition-transform duration-200 ${isSelected ? "scale-100" : "scale-0"}`} />
-                    </span>
-                  </span>
-                  <span className="mt-5 block text-base font-semibold tracking-[-0.02em] text-foreground sm:text-lg">{title}</span>
-                  <span className="mt-2 block text-sm leading-6 text-muted-foreground">{description}</span>
-                </button>
+                    <span className="mt-5 block text-base font-semibold tracking-[-0.02em] text-foreground sm:text-lg">{title}</span>
+                    <span className="mt-2 block text-sm leading-6 text-muted-foreground">{description}</span>
+                  </button>
+                </AiUpdatedField>
               );
             })}
           </div>
@@ -143,7 +149,6 @@ export function GoalStep() {
         </section>
       </div>
 
-      <VoiceAssistantFloat message="What would you like Pathwisse to help you achieve?" />
     </main>
   );
 }

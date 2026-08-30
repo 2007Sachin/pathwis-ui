@@ -21,9 +21,9 @@ import {
 } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 
+import { AiUpdatedField } from "@/components/onboarding/ai-updated-field";
 import { OnboardingHeader } from "@/components/onboarding/onboarding-header";
 import { Button } from "@/components/ui/button";
-import { VoiceAssistantFloat } from "@/components/voice/voice-assistant-float";
 import { useOnboardingStore } from "@/stores/onboarding-store";
 import type { RoadmapStage } from "@/types";
 
@@ -144,19 +144,19 @@ export function RoadmapStep() {
   const weeklyCommitment = hoursPerWeek ?? 8;
 
   const goBack = () => {
-    setCurrentStep(6);
-    router.push("/onboarding?step=6");
+    setCurrentStep(7);
+    router.push("/onboarding?step=7");
   };
 
   const unlockRoadmap = () => {
     if (!roadmap) return;
-    setCurrentStep(8);
-    router.push("/onboarding?step=8");
+    setCurrentStep(9);
+    router.push("/onboarding?step=9");
   };
 
   return (
     <main className="min-h-[100dvh] bg-background pb-44 text-foreground sm:pb-40">
-      <OnboardingHeader step={7} label="Your roadmap" />
+      <OnboardingHeader step={8} label="Your roadmap" />
 
       <div className="mx-auto w-full max-w-[1280px] px-5 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:pt-16">
         <section aria-labelledby="roadmap-heading">
@@ -183,8 +183,8 @@ export function RoadmapStep() {
               </Button>
             </section>
           ) : (
-            <>
-              <div className="mt-10 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <AiUpdatedField field="roadmap" className="mt-10 rounded-[1.5rem]">
+              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 <RoadmapStat label="Selected career" value={roadmap.career} icon={Target} />
                 <RoadmapStat label="Estimated duration" value={`${roadmap.estimatedWeeks} weeks`} icon={Clock} />
                 <RoadmapStat label="Weekly commitment" value={`${weeklyCommitment} hours / week`} icon={Gauge} />
@@ -225,7 +225,7 @@ export function RoadmapStep() {
                   </div>
                 </aside>
               </div>
-            </>
+            </AiUpdatedField>
           )}
 
           <div className="mt-6 flex flex-col-reverse gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
@@ -241,7 +241,6 @@ export function RoadmapStep() {
         </section>
       </div>
 
-      <VoiceAssistantFloat message="Your roadmap is ready. I can walk you through each stage and explain how the plan fits your schedule." />
     </main>
   );
 }

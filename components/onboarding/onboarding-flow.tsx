@@ -10,7 +10,9 @@ import { CareerMatchesStep } from "@/components/onboarding/career-matches-step";
 import { RoadmapStep } from "@/components/onboarding/roadmap-step";
 import { UnlockJourneyStep } from "@/components/onboarding/unlock-journey-step";
 import { LearnerProfileStep } from "@/components/onboarding/learner-profile-step";
+import { LearningPreferencesStep } from "@/components/onboarding/learning-preferences-step";
 import { WelcomeScreen } from "@/components/onboarding/welcome-screen";
+import { PathwisseVoiceAssistant } from "@/components/voice/pathwisse-voice-assistant";
 import { useOnboardingStore } from "@/stores/onboarding-store";
 
 export function OnboardingFlow() {
@@ -21,38 +23,26 @@ export function OnboardingFlow() {
   useEffect(() => {
     const requestedStep = Number(searchParams.get("step"));
 
-    if (Number.isInteger(requestedStep) && requestedStep >= 1 && requestedStep <= 8) {
+    if (Number.isInteger(requestedStep) && requestedStep >= 1 && requestedStep <= 9) {
       setCurrentStep(requestedStep);
     }
   }, [searchParams, setCurrentStep]);
 
-  if (currentStep === 2) {
-    return <GoalStep />;
-  }
+  let screen = <WelcomeScreen />;
 
-  if (currentStep === 3) {
-    return <LearnerProfileStep />;
-  }
+  if (currentStep === 2) screen = <GoalStep />;
+  if (currentStep === 3) screen = <LearnerProfileStep />;
+  if (currentStep === 4) screen = <CareerIntentStep />;
+  if (currentStep === 5) screen = <CareerDiscoveryStep />;
+  if (currentStep === 6) screen = <CareerMatchesStep />;
+  if (currentStep === 7) screen = <LearningPreferencesStep />;
+  if (currentStep === 8) screen = <RoadmapStep />;
+  if (currentStep >= 9) screen = <UnlockJourneyStep />;
 
-  if (currentStep === 4) {
-    return <CareerIntentStep />;
-  }
-
-  if (currentStep === 5) {
-    return <CareerDiscoveryStep />;
-  }
-
-  if (currentStep === 6) {
-    return <CareerMatchesStep />;
-  }
-
-  if (currentStep === 7) {
-    return <RoadmapStep />;
-  }
-
-  if (currentStep >= 8) {
-    return <UnlockJourneyStep />;
-  }
-
-  return <WelcomeScreen />;
+  return (
+    <>
+      {screen}
+      <PathwisseVoiceAssistant />
+    </>
+  );
 }

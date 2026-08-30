@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 
 import { OnboardingHeader } from "@/components/onboarding/onboarding-header";
 import { Button } from "@/components/ui/button";
-import { VoiceAssistantFloat } from "@/components/voice/voice-assistant-float";
 import { useOnboardingStore } from "@/stores/onboarding-store";
 
 export function OnboardingStepPlaceholder({ step }: { step: number }) {
@@ -23,7 +22,7 @@ export function OnboardingStepPlaceholder({ step }: { step: number }) {
       <OnboardingHeader step={step} label="Coming next" />
       <div className="mx-auto w-full max-w-[1240px] px-5 pt-16 sm:px-8 lg:px-12">
         <section className="max-w-2xl rounded-[1.75rem] border border-border bg-card p-7 sm:p-10">
-          <p className="text-sm font-semibold text-primary">Onboarding {step}/8</p>
+          <p className="text-sm font-semibold text-primary">Onboarding {step}/9</p>
           <h1 className="mt-4 text-3xl font-semibold tracking-[-0.04em] sm:text-4xl">
             The next onboarding screen is ready to be added.
           </h1>
@@ -36,7 +35,6 @@ export function OnboardingStepPlaceholder({ step }: { step: number }) {
           </Button>
         </section>
       </div>
-      <VoiceAssistantFloat message="I am ready to guide you through the next question." />
     </main>
   );
 }

@@ -21,7 +21,7 @@ export function OnboardingHeader({ step, label }: OnboardingHeaderProps) {
 
         <div className="shrink-0 border-l border-border pl-4 text-right sm:pl-6">
           <p className="text-xs font-medium text-muted-foreground sm:text-sm">
-            Onboarding {step}/8
+            Onboarding {step}/9
           </p>
           <p className="mt-0.5 text-sm font-semibold text-foreground">{label}</p>
         </div>
