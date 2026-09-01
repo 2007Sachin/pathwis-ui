@@ -345,6 +345,14 @@ export function executePathwisseTool(call: RealtimeFunctionCall): PathwisseToolR
       });
     }
 
+    case "set_career_priorities": {
+      validateKeys(input, ["priorities"], call.name);
+      const priorities = requiredStringList(input.priorities, "priorities");
+      actions.setCareerPriorities(priorities);
+      announceAiUiUpdate("careerPriorities");
+      return success(call.name, "Career priorities were updated.", { updatedFields: ["careerPriorities"] });
+    }
+
     case "recommend_careers": {
       validateKeys(input, [], call.name);
       const recommendations = recommendationsFromCurrentProfile();
@@ -453,8 +461,8 @@ export function executePathwisseTool(call: RealtimeFunctionCall): PathwisseToolR
 
     case "navigate_to_step": {
       validateKeys(input, ["step"], call.name);
-      if (!Number.isInteger(input.step) || Number(input.step) < 1 || Number(input.step) > 9) {
-        throw new Error("step must be an integer from 1 to 9.");
+      if (!Number.isInteger(input.step) || Number(input.step) < 1 || Number(input.step) > 7) {
+        throw new Error("step must be an integer from 1 to 7.");
       }
       const step = Number(input.step);
       actions.setCurrentStep(step);

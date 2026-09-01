@@ -85,8 +85,8 @@ export function UnlockJourneyStep({ paymentHandler = handleMockPayment }: Unlock
   const career = roadmap?.career ?? selectedRecommendation?.career ?? readableCareer(selectedCareer ?? "your career");
 
   const goBack = () => {
-    setCurrentStep(8);
-    router.push("/onboarding?step=8");
+    setCurrentStep(6);
+    router.push("/onboarding?step=6");
   };
 
   const unlockRoadmap = async () => {
@@ -118,8 +118,8 @@ export function UnlockJourneyStep({ paymentHandler = handleMockPayment }: Unlock
   };
 
   const startStageOne = () => {
-    setCurrentStep(8);
-    router.push("/onboarding?step=8#roadmap-stage-1");
+    setCurrentStep(6);
+    router.push("/onboarding?step=6#roadmap-stage-1");
   };
 
   if (isComplete) {
@@ -149,7 +149,7 @@ export function UnlockJourneyStep({ paymentHandler = handleMockPayment }: Unlock
 
   return (
     <main className="min-h-[100dvh] bg-background pb-44 text-foreground sm:pb-40">
-      <OnboardingHeader step={9} label="Unlock your journey" />
+      <OnboardingHeader step={7} label="Unlock your journey" />
 
       <div className="mx-auto w-full max-w-[1180px] px-5 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:pt-16">
         <section aria-labelledby="unlock-heading">

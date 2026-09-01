@@ -115,18 +115,18 @@ export function LearnerProfileStep() {
   };
 
   const goBack = () => {
-    setCurrentStep(2);
-    router.push("/onboarding?step=2");
+    setCurrentStep(1);
+    router.push("/onboarding?step=1");
   };
 
   const continueToStepFour = () => {
-    setCurrentStep(4);
-    router.push("/onboarding?step=4");
+    setCurrentStep(3);
+    router.push("/onboarding?step=3");
   };
 
   return (
     <main className="min-h-[100dvh] bg-background pb-44 text-foreground sm:pb-40">
-      <OnboardingHeader step={3} label="About you" />
+      <OnboardingHeader step={2} label="About you" />
 
       <div className="mx-auto w-full max-w-[1080px] px-5 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:pt-16">
         <section aria-labelledby="profile-heading">

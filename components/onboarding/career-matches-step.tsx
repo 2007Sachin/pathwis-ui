@@ -148,19 +148,19 @@ export function CareerMatchesStep() {
   const hasSelectedMatch = recommendations.some((recommendation) => recommendation.id === selectedCareer);
 
   const goBack = () => {
-    setCurrentStep(5);
-    router.push("/onboarding?step=5");
+    setCurrentStep(3);
+    router.push("/onboarding?step=3");
   };
 
   const continueToPreferences = () => {
     if (!hasSelectedMatch) return;
-    setCurrentStep(7);
-    router.push("/onboarding?step=7");
+    setCurrentStep(5);
+    router.push("/onboarding?step=5");
   };
 
   return (
     <main className="min-h-[100dvh] bg-background pb-44 text-foreground sm:pb-40">
-      <OnboardingHeader step={6} label="Career matches" />
+      <OnboardingHeader step={4} label="Career matches" />
 
       <div className="mx-auto w-full max-w-[1320px] px-5 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:pt-16">
         <section aria-labelledby="matches-heading">

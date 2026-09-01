@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  ArrowLeft,
   ArrowRight,
   ArrowsLeftRight,
   Binoculars,
@@ -71,30 +70,25 @@ export function GoalStep() {
   const setGoal = useOnboardingStore((state) => state.setGoal);
   const setCurrentStep = useOnboardingStore((state) => state.setCurrentStep);
 
-  const goBack = () => {
-    setCurrentStep(1);
-    router.push("/onboarding");
-  };
-
   const continueToStepThree = () => {
     if (!selectedGoal) return;
-    setCurrentStep(3);
-    router.push("/onboarding?step=3");
+    setCurrentStep(2);
+    router.push("/onboarding?step=2");
   };
 
   return (
     <main className="min-h-[100dvh] bg-background pb-44 text-foreground sm:pb-40">
-      <OnboardingHeader step={2} label="Your goal" />
+      <OnboardingHeader step={1} label="Your goal" />
 
       <div className="mx-auto w-full max-w-[1240px] px-5 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:pt-16">
         <section aria-labelledby="goal-heading">
           <div className="max-w-3xl">
             <p className="text-sm font-semibold text-primary">Choose your outcome</p>
             <h1 id="goal-heading" className="mt-4 text-4xl font-semibold leading-[1.08] tracking-[-0.045em] text-balance sm:text-5xl">
-              What brings you to Pathwisse?
+              Build a career path around you
             </h1>
             <p className="mt-5 max-w-[700px] text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-              Choose the outcome you want. Your answer changes the recommendations and roadmap we build.
+              Tell Pathwisse what you want to achieve and we’ll personalise your journey.
             </p>
           </div>
 
@@ -137,10 +131,7 @@ export function GoalStep() {
           </div>
 
           <div className="mt-8 flex flex-col-reverse gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
-            <Button variant="ghost" size="lg" className="h-12 w-full rounded-xl px-5 sm:w-auto" onClick={goBack}>
-              <ArrowLeft aria-hidden="true" className="mr-2 size-4" weight="bold" />
-              Back
-            </Button>
+            <span />
             <Button size="lg" className="h-12 w-full rounded-xl px-6 sm:w-auto" disabled={!selectedGoal} onClick={continueToStepThree}>
               Continue
               <ArrowRight aria-hidden="true" className="ml-2 size-4" weight="bold" />

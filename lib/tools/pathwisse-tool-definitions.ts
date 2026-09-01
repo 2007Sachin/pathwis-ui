@@ -147,6 +147,16 @@ export const PATHWISSE_TOOL_DEFINITIONS = [
   },
   {
     type: "function",
+    name: "set_career_priorities",
+    description: "Store what matters most to the learner in their next role.",
+    parameters: {
+      type: "object", additionalProperties: false,
+      properties: { priorities: { type: "array", items: { type: "string" } } },
+      required: ["priorities"],
+    },
+  },
+  {
+    type: "function",
     name: "recommend_careers",
     description:
       "Calculate and store the learner's top three deterministic career recommendations from the current onboarding profile.",
@@ -211,7 +221,7 @@ export const PATHWISSE_TOOL_DEFINITIONS = [
       type: "object",
       additionalProperties: false,
       properties: {
-        step: { type: "integer", minimum: 1, maximum: 9 },
+        step: { type: "integer", minimum: 1, maximum: 7 },
       },
       required: ["step"],
     },

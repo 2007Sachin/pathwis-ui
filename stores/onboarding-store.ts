@@ -139,7 +139,16 @@ export const useOnboardingStore = create<OnboardingStore>()(
     }),
     {
       name: "pathwisse-onboarding",
-      version: 1,
+      version: 2,
+      migrate: (persisted, version) => {
+        const state = persisted as Partial<OnboardingProfile>;
+        if (version < 2) {
+          const oldStep = Number(state.currentStep ?? 1);
+          state.currentStep = oldStep <= 2 ? 1 : oldStep === 3 ? 2 : oldStep <= 5 ? 3 : oldStep - 2;
+        }
+        state.currentStep = Math.min(7, Math.max(1, Number(state.currentStep ?? 1)));
+        return { ...createInitialOnboardingProfile(), ...state };
+      },
     },
   ),
 );
