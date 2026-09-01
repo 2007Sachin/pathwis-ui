@@ -77,21 +77,21 @@ export function LearningPreferencesStep() {
   const canContinue = hoursPerWeek !== null && learningStyles.length > 0 && learningPace !== null;
 
   const goBack = () => {
-    setCurrentStep(6);
-    router.push("/onboarding?step=6");
+    setCurrentStep(4);
+    router.push("/onboarding?step=4");
   };
 
   const buildRoadmap = () => {
     if (!canContinue) return;
     const roadmap = generateRoadmap();
     if (!roadmap) return;
-    setCurrentStep(8);
-    router.push("/onboarding?step=8");
+    setCurrentStep(6);
+    router.push("/onboarding?step=6");
   };
 
   return (
     <main className="min-h-[100dvh] bg-background pb-44 text-foreground sm:pb-40">
-      <OnboardingHeader step={7} label="Learning preferences" />
+      <OnboardingHeader step={5} label="Learning preferences" />
 
       <div className="mx-auto w-full max-w-[1180px] px-5 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:pt-16">
         <section aria-labelledby="preferences-heading">

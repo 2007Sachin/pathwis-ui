@@ -129,6 +129,7 @@ function RoadmapStageCard({ stage, index, isLast }: { stage: RoadmapStage; index
 const journeySteps = [
   { label: "Current profile", icon: UserCircle },
   { label: "Skill development", icon: GraduationCap },
+  { label: "Applied projects", icon: FolderOpen },
   { label: "Portfolio", icon: Briefcase },
   { label: "Career ready", icon: Flag },
 ];
@@ -137,6 +138,7 @@ export function RoadmapStep() {
   const router = useRouter();
   const roadmap = useOnboardingStore((state) => state.roadmap);
   const hoursPerWeek = useOnboardingStore((state) => state.hoursPerWeek);
+  const currentSkills = useOnboardingStore((state) => state.skills);
   const setCurrentStep = useOnboardingStore((state) => state.setCurrentStep);
   const skillGapCount = roadmap
     ? new Set(roadmap.stages.flatMap((stage) => stage.skills.map((skill) => skill.toLocaleLowerCase()))).size
@@ -144,19 +146,19 @@ export function RoadmapStep() {
   const weeklyCommitment = hoursPerWeek ?? 8;
 
   const goBack = () => {
-    setCurrentStep(7);
-    router.push("/onboarding?step=7");
+    setCurrentStep(5);
+    router.push("/onboarding?step=5");
   };
 
   const unlockRoadmap = () => {
     if (!roadmap) return;
-    setCurrentStep(9);
-    router.push("/onboarding?step=9");
+    setCurrentStep(7);
+    router.push("/onboarding?step=7");
   };
 
   return (
     <main className="min-h-[100dvh] bg-background pb-44 text-foreground sm:pb-40">
-      <OnboardingHeader step={8} label="Your roadmap" />
+      <OnboardingHeader step={6} label="Your roadmap" />
 
       <div className="mx-auto w-full max-w-[1280px] px-5 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:pt-16">
         <section aria-labelledby="roadmap-heading">
@@ -189,6 +191,17 @@ export function RoadmapStep() {
                 <RoadmapStat label="Estimated duration" value={`${roadmap.estimatedWeeks} weeks`} icon={Clock} />
                 <RoadmapStat label="Weekly commitment" value={`${weeklyCommitment} hours / week`} icon={Gauge} />
                 <RoadmapStat label="Skill gap count" value={`${skillGapCount} skills`} icon={Lightning} />
+              </div>
+
+              <div className="mt-5 grid gap-3 md:grid-cols-2">
+                <section className="rounded-2xl border border-border bg-card p-5">
+                  <h2 className="font-semibold">Current transferable skills</h2>
+                  <div className="mt-3 flex flex-wrap gap-2">{currentSkills.map((skill) => <span key={skill} className="rounded-lg bg-brand-50 px-3 py-1.5 text-sm text-primary">{skill}</span>)}</div>
+                </section>
+                <section className="rounded-2xl border border-border bg-card p-5">
+                  <h2 className="font-semibold">Skills to develop</h2>
+                  <div className="mt-3 flex flex-wrap gap-2">{[...new Set(roadmap.stages.flatMap((stage) => stage.skills))].slice(0, 8).map((skill) => <span key={skill} className="rounded-lg bg-muted px-3 py-1.5 text-sm">{skill}</span>)}</div>
+                </section>
               </div>
 
               <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
